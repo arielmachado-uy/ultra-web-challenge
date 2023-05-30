@@ -7,7 +7,9 @@
   "author": "Ariel Machado <arielma77@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^12.13.0",
+    "cypress": "12.13.0"
+  },
+  "dependencies": {
     "typescript": "^5.0.4"
   }
 }
