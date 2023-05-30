@@ -1,0 +1,16 @@
+{
+  "include": ["*", "cypress/**/*"],
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "target": "ES5",
+    "lib": ["es5", "dom"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "types": ["cypress", "node"],
+    "paths": {
+      "@pageObjects/*": ["cypress/fixtures/page-objects/*"]
+    }
+  }
+}
