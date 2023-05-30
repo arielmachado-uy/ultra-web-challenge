@@ -1,0 +1,12 @@
+{
+  "name": "ultra_web_challenge",
+  "version": "1.0.0",
+  "description": "Web UI automation project for Ultra.io",
+  "main": "index.js",
+  "repository": "https://github.com/arielmachado-uy/ultra_web_challenge.git",
+  "author": "Ariel Machado <arielma77@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^12.13.0"
+  }
+}
