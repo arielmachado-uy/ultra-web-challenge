@@ -1,2 +1,2 @@
-# ultra_web_challenge
+# Ultra.io : Web UI Challenge
 Web UI automation framework with Cypress and Typescript
