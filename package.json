@@ -7,7 +7,8 @@
   "author": "Ariel Machado <arielma77@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "12.13.0"
+    "cypress": "12.13.0",
+    "cypress-v10-preserve-cookie": "^1.2.1"
   },
   "dependencies": {
     "typescript": "^5.0.4"

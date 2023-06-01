@@ -311,6 +311,13 @@ cross-spawn@^7.0.0:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+cypress-v10-preserve-cookie@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/cypress-v10-preserve-cookie/-/cypress-v10-preserve-cookie-1.2.1.tgz#7ddadb253d7cfd5570bff7938806c557eac895cc"
+  integrity sha512-8JAfcrDrCCiFyce7ygtqO9Gad0yzFla9WNDGA9j4sz6kLSvh2m2fWcBcON2VwWw5GfRDXmpe+yzT2r8Mu3jGdA==
+  dependencies:
+    debug "^4.3.4"
+
 cypress@12.13.0:
   version "12.13.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.13.0.tgz#725b6617ea19e41e5c59cc509fc3e08097142b01"
