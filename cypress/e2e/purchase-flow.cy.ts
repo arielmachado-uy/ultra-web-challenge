@@ -1,7 +1,29 @@
+import { Inventory } from "@pageObjects/inventory-page";
+import { Cart } from "@pageObjects/cart-page";
+import { PurchaseForm } from "@pageObjects/purchase-form";
+import { Invoice } from "@pageObjects/invoice-page";
+import { Confirmation } from "@pageObjects/confirmation-page";
+
 describe("Purchase suite", () => {
 
+  // Suite variables
+  let inventoryPage = new Inventory();
+  let cartPage = new Cart();
+  let formPage = new PurchaseForm();
+  let invoicePage = new Invoice();
+  let confirmationPage = new Confirmation();
+
+  let invoiceValues = {
+        itemTotal: 0,
+        tax: 0,
+        total: 0
+      }
+  
   before(() => {
-    cy.userLogin('standard_user', 'secret_sauce');
+    cy.fixture('/test_data/user.json')
+    .then(user => {
+      cy.userLogin(user.username, user.password);
+    })
   })
 
   beforeEach(() => {
@@ -9,29 +31,27 @@ describe("Purchase suite", () => {
   })
 
   it("Successful purchase of a single product", function () {
+    //TODO: Get the list of items and randomly select one of them
     // Find all the items and store one in an alias
-    cy.get('div[class="inventory_item"]').eq(1).as('selectedProduct')
+    inventoryPage.getInventoryItems(1).as('selectedProduct')
 
-    // Validate text before clicking on it
-    cy.get('@selectedProduct')
-    .find('button')
-    .should('have.text', 'Add to cart')
+    // Store the button of the selected item for future usage
+    cy.get('@selectedProduct').find('button').as('productButton')
+    
+    // Validate text before clicking on the button
+    cy.get('@productButton').should('have.text', 'Add to cart')
 
     // Validate that the cart is empty
-    cy.get('span[class="shopping_cart_badge"]').should('not.exist')
+    inventoryPage.getCartCounter().should('not.exist')
 
-    // Click on the stored button
-    cy.get('@selectedProduct')
-    .find('button')
-    .click();
+    // Click on the selected product button
+    cy.get('@productButton').click();
 
     // Validate text changed to remove
-    cy.get('@selectedProduct')
-    .find('button')
-    .should('have.text', 'Remove')
+    cy.get('@productButton').should('have.text', 'Remove')
 
     // Check the count in the cart increased by 1
-    cy.get('span[class="shopping_cart_badge"]')
+    inventoryPage.getCartCounter()
     .should('have.text', "1")
 
     // Store the name of the product for future validations
@@ -59,11 +79,12 @@ describe("Purchase suite", () => {
     .then(price => cy.log(`Selected product price: ${price}`))
 
     // Click on the cart
-    cy.get('a.shopping_cart_link').click();
+    inventoryPage.getCartButton().click();
 
     // Check Cart values
     // Get the name of the product in the cart and compare it with the stored one
-    cy.get('div[class="inventory_item_name"]')
+    // TODO: Improve in order to different items in the cart
+    cartPage.getItemName()
     .invoke('text')
     .then(selectedName => {
       cy.get("@productName").then(storedName => {
@@ -72,7 +93,7 @@ describe("Purchase suite", () => {
     })
 
     // Get the price of the product in the cart and compare it with the stored one
-    cy.get('div[class="inventory_item_price"]')
+    cartPage.getItemPrice()
     .invoke('text')
     .then(selectedPrice => {
       cy.get("@productPrice").then(storedPrice => {
@@ -82,26 +103,26 @@ describe("Purchase suite", () => {
 
    // Validate the number of products in the cart
    // Based on how the UI works, I should only have 1
-    cy.get('.cart_quantity').should('have.text', '1');
+   cartPage.getCartQuantity().should('have.text', '1');
 
     // Click on the Checkout button
-    cy.get('#checkout').click();
+   cartPage.getCheckoutButton().click();
 
     // Complete the checkout form
-    cy.get('input[data-test="firstName"]').type('Ariel');
-    cy.get('input[data-test="lastName"]').type('Machado');
-    cy.get('input[data-test="postalCode"]').type('11600');
+    formPage.getNameTextbox().type('Ariel');
+    formPage.getSurnameTextbox().type('Machado');
+    formPage.getPOTextbox().type('11600');
 
     // Click on the Continue button
-    cy.get('input[data-test="continue"]').click();
+    formPage.getContinueButton().click();
 
     // Check Overview values
     // Validate the number of products in the cart
    // Based on how the UI works, I should only have 1
-   cy.get('.cart_quantity').should('have.text', '1');
+   invoicePage.getInvoiceQuantity().should('have.text', '1');
 
    // Get the name of the product in the cart and compare it with the stored one
-   cy.get('div[class="inventory_item_name"]')
+   invoicePage.getItemName()
    .invoke('text')
    .then(selectedName => {
      cy.get("@productName").then(storedName => {
@@ -110,7 +131,7 @@ describe("Purchase suite", () => {
    })
 
    // Get the price of the product in the cart and compare it with the stored one
-   cy.get('div[class="inventory_item_price"]')
+   invoicePage.getItemPrice()
    .invoke('text')
    .then(selectedPrice => {
      cy.get("@productPrice").then(storedPrice => {
@@ -120,66 +141,55 @@ describe("Purchase suite", () => {
 
     // Validate the sections of the invoice
     // Payment Information title
-    cy.get('.summary_info_label').contains('Payment Information').should('be.visible');
+    invoicePage.getPaymentInformationLabel().should('be.visible');
     // Payment information will change so I just check that there is some text there
-    cy.get('.summary_info_label').contains('Payment Information').next().should('be.visible');
+    invoicePage.getPaymentInformationLabel().next().should('be.visible');
     
     // Shipping Information title
-    cy.get('.summary_info_label').contains('Shipping Information').should('be.visible');
+    invoicePage.getShippingInformationLabel().should('be.visible');
     // Shipping information will change so I just check that there is some text there
-    cy.get('.summary_info_label').contains('Shipping Information').next().should('be.visible');
+    invoicePage.getShippingInformationLabel().next().should('be.visible');
     
     // Price Total title
-    cy.get('.summary_info_label').contains('Price Total').should('be.visible');
+    invoicePage.getPriceTotalLabel().should('be.visible');
     
-    function getPriceFromText(text: string) {
-      return /[^$]*$/gm.exec(text);
-    }
-    
-    let invoiceValues = {
-      itemTotal: 0,
-      tax: 0,
-      total: 0
-    }
-
     // Get Item total value
-   cy.get('.summary_subtotal_label')
+   invoicePage.getItemPriceLabel()
    .invoke('text')
    .then(subTotal => {
-    invoiceValues.itemTotal = Number(getPriceFromText(subTotal));
+    invoiceValues.itemTotal = Number(invoicePage.getPriceFromText(subTotal));
     cy.get("@productPrice").then(storedPrice => {
       expect(`$${invoiceValues.itemTotal}`).to.be.equal(storedPrice);
-   
     })
+  })
 
     // Get Tax value
-    cy.get('.summary_tax_label')
+   invoicePage.getTaxLabel() 
     .invoke('text')
     .then(tax => {
-      invoiceValues.tax = Number(getPriceFromText(tax));
+      invoiceValues.tax = Number(invoicePage.getPriceFromText(tax));
+    })
 
     // Get Total value
-    cy.get('.summary_total_label')
+    invoicePage.getTotalLabel()
     .invoke('text')
     .then(total => {
-      invoiceValues.total = Number(getPriceFromText(total));
+      invoiceValues.total = Number(invoicePage.getPriceFromText(total));
    
       // Math validations
     expect((invoiceValues.total).toString()).to.be.equal((invoiceValues.itemTotal + invoiceValues.tax).toFixed(2));
   })
 
   // Click on the Continue button
-  cy.get('button[data-test="finish"]').click();
+  invoicePage.getContinueButton().click();
 
   // Validate confirmation message
-  cy.get('h2[class="complete-header"]').should('have.text', 'Thank you for your order!')
+  confirmationPage.getConfirmationMessage().should('have.text', 'Thank you for your order!')
 
   // Click on the Back Home button
-  cy.get('button[data-test="back-to-products"]').click();
+  confirmationPage.getBackButton().click();
 
   // Validate that the cart is empty
-  cy.get('span[class="shopping_cart_badge"]').should('not.exist')
-    })
+  inventoryPage.getCartCounter().should('not.exist')
    })
-  });
 })
