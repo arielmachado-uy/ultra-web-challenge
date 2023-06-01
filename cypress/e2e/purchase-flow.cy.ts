@@ -18,16 +18,12 @@ describe("Purchase suite", () => {
         tax: 0,
         total: 0
       }
-  
-  before(() => {
+
+  beforeEach(() => {
     cy.fixture('/test_data/user.json')
     .then(user => {
       cy.userLogin(user.username, user.password);
     })
-  })
-
-  beforeEach(() => {
-    cy.preserveCookieOnce('session-username')
   })
 
   it("Successful purchase of a single product", function () {

@@ -1,4 +1,3 @@
-import 'cypress-v10-preserve-cookie'
 import { Login } from "@pageObjects/login-page"
 
 const loginPage = new Login();
