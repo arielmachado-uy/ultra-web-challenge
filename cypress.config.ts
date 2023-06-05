@@ -1,4 +1,4 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from "cypress";
 
 export default defineConfig({
   projectId: "g5ecjv",
@@ -7,7 +7,5 @@ export default defineConfig({
     baseUrl: "https://www.saucedemo.com/", 
   },
 
-  async setupNodeEvents(on: any, config: any) {
-    return require("./cypress/support/e2e.ts")(on, config);
-  },
+  setupNodeEvents(on: any, config: any) {},
 });
