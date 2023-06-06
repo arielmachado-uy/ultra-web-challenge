@@ -19,6 +19,7 @@ describe("Purchase suite", () => {
   };
 
   beforeEach(() => {
+    // Before each test case the user is logged in using provided credentials
     cy.fixture("/test_data/user.json").then((user) => {
       cy.userLogin(user.username, user.password);
     });
