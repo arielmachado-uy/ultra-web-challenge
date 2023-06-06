@@ -145,7 +145,7 @@ https://github.com/arielmachado-uy/ultra-web-challenge/assets/18541519/cd59fe87-
 
 Script `yarn cy:ci`
 - Use this script to run the test cases in the CI/CD
-- This script contains the key to the Cypress Dashboard integration
+- This script contains the key to the Cypress Cloud integration
 
 
 <br>
