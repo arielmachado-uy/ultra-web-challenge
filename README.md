@@ -30,9 +30,9 @@ Preconditions: The cart is empty, there are no pending items to purchase
 <br>
 Steps:
 
-1. Log in into the site using the provided credentials (`standard_user`)
+1. Login into the site using the provided credentials (`standard_user`)
     - Expected partial results: 
-      - User is succesfully logged in 
+      - User is successfully logged in 
       - The homepage with a list of products is displayed to the user 
       - The cart is empty (it is not showing any value)
 
@@ -43,18 +43,18 @@ Steps:
       - The `Add to cart` button that was clicked changed its text to `Remove`
       - The cart is now showing a `1`
 
-4. Click on the Cart icon to access its content
+4. Click on the `Cart icon` to access its content
    - Expected partial results:     
       - The content of the cart is displayed to the user
       - The values of the product in the cart are correct (`input: step 2`)
       - The app under test does not allow users to buy more than 1 item of the same product, so the quantity value will be `1`
 
-5. Click on the Checkout button
+5. Click on the `Checkout` button
    - Expected partial results:     
       - A form page is displayed to the user
       - The form has 3 fields that the user needs to fill out in order to proceed with the purchase: `First Name`, `Last Name` and `Zip/Postal Code`
 
-6. Fill out all the fields in the form and click on Continue button
+6. Fill out all the fields in the form and click on the `Continue` button
    - Expected partial results:     
       - An overview of the purchase is displayed to the user
       - The values of the product in the cart are correct (`input: step 2`)
@@ -62,11 +62,11 @@ Steps:
       - The maths are correct based on the price of the product and the applied taxes
       - The cart is still showing `1` 
 
-7. Click on the Finish button
+7. Click on the `Finish` button
    - Expected results:     
-      - A succesful message is displayed to the user confirming that the purchased was finished correctly
+      - A successful message is displayed to the user confirming that the purchase was finished correctly
       - No email is sent to the user 
-      - The cart does not show any value
+      - The cart is empty (it does not show any value)
 
 <br>
 
@@ -110,9 +110,11 @@ Project execution
 - `yarn cy:open`
 - `yarn cy:ci`
 
+<br>
+
 Script `yarn cy:run`
-- When running this script the test case will be executed locally in a headless way
-- After the test finishes running, a new video will be stored inside the `videos` folder with a record of the execution (videos are deleted before every new exeuction)
+- When running this script, the test case will be executed locally in a headless way
+- After the test finishes running, a new video will be stored inside the `videos` folder with a record of the execution (videos are deleted before every new execution)
 - In case there was a failure, the framework will take a screenshot of the error and store it inside the `screenshots` folder
 - The results of the execution will be displayed like this:
 
@@ -121,7 +123,7 @@ Script `yarn cy:run`
 <br>
 
 Script `yarn cy:open`
-- When running this script the Cypress Runner will be opened and user can utilize it to execute the test case
+- When running this script the Cypress Runner will be opened and the tester can utilize it to execute the test case
 - When using the runner, the user can navigate back in time and review previous steps and responses
 - The user can see the execution of the test inside the runner
 - No videos, nor screenshots are stored during this execution
@@ -130,3 +132,54 @@ Script `yarn cy:open`
 
 https://github.com/arielmachado-uy/ultra-web-challenge/assets/18541519/cd59fe87-783a-47cb-b569-fbfe18884e6c
 
+<br>
+
+Script `yarn cy:ci`
+- Use this script to run the test cases in the CI/CD
+- This script contains the key to the Cypress Dashboard integration
+
+
+<br>
+Information about the project implementation
+
+- Since this is a UI automation project, I am using a page object pattern to group and manage the locators of the elements in a reusable way (Check `fixtures/page-objects` folder)
+
+- Reusable methods were implemented at the page object level
+- Reusable custom commands were implemented inside the `commands.ts` file
+
+- After following the setup process, test cases can be run using the scripts provided inside the `package.json` file
+
+- Cypress uses chaining to perform actions over the web elements, like this: `cartPage.getCheckoutButton().click()` <-- Here, the cartPage page object is queried to return the checkout button. After the button is retrieved, the click() action is performed over that element
+
+- The values used in the test are retrieved from a file (`user.json`) so the management of the data is performed outside of the logic of the test
+
+- `Expect` and `Should` assertions are used indistinctly to validate values and states during the execution of the test
+
+- Since I am using Typescript, when a new custom command is implemented, the Chainable interface needs to be updated with the signature of the method (check `commands.ts` file)
+
+<br>
+
+### **5. Describe the chosen testing approach and anything you could improve about the technical task**
+
+**Testing approach**
+   
+   - The test follows the flow of the purchase of a single product from the login step until the final confirmation of the purchase
+   - Web elements are identified by their locators using a `relative locator approach` where locators are implemented using unique values and without relying on unnecessary DOM structures
+   - Every page has its own page object class with its elements and locators
+   - A reusable method was implemented for the login step where the credentials are passed to the method and the interaction with the appropriate elements is defined
+   - After selecting a product, its values are checked during the whole execution of the test in every place where the product is displayed to the user
+   - This is a "happy path" test case where only the basic flow is validated, in order to provide better coverage, several test cases would need to be implemented to validate more positive test cases, edge cases, negative test cases, and other positive scenarios involving navigation
+
+ <br>
+
+**Improvements of technical tasks**
+
+These are some improvements that can be performed over this project:
+
+- Use an API to gain access to the app programmatically
+- Select the products and the number of products in a random/dynamic way instead of hardcoding the one to be used during the test
+- The app needs more scenarios to cover the whole functionality
+- I would use visual testing tools like Percy to validate the UI during the execution of the test
+- Improve validation methods to handle several/random products
+- Improve math validation method to handle several products
+- If the UI would allow the selection of more than one item per product we would need to devise scenarios for that case

@@ -77,7 +77,7 @@ describe("Purchase suite", () => {
 
     // Check Cart values
     // Get the name of the product in the cart and compare it with the stored one
-    // TODO: Improve in order to different items in the cart
+    // TODO: Improve in order to validate different items in the cart
     cartPage
       .getItemName()
       .invoke("text")
