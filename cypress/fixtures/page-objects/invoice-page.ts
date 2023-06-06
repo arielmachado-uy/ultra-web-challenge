@@ -1,6 +1,6 @@
 export class Invoice {
   getInvoiceQuantity() {
-    return cy.get('.cart_quantity');
+    return cy.get(".cart_quantity");
   }
 
   getItemName() {
@@ -12,15 +12,15 @@ export class Invoice {
   }
 
   getPaymentInformationLabel() {
-    return cy.get('.summary_info_label').contains('Payment Information');
+    return cy.get(".summary_info_label").contains("Payment Information");
   }
 
   getShippingInformationLabel() {
-    return cy.get('.summary_info_label').contains('Shipping Information');
+    return cy.get(".summary_info_label").contains("Shipping Information");
   }
 
   getPriceTotalLabel() {
-    return cy.get('.summary_info_label').contains('Price Total');
+    return cy.get(".summary_info_label").contains("Price Total");
   }
 
   getPriceFromText(text: string) {
@@ -28,15 +28,15 @@ export class Invoice {
   }
 
   getItemPriceLabel() {
-    return cy.get('.summary_subtotal_label');
+    return cy.get(".summary_subtotal_label");
   }
 
   getTaxLabel() {
-    return cy.get('.summary_tax_label');
+    return cy.get(".summary_tax_label");
   }
 
   getTotalLabel() {
-    return cy.get('.summary_total_label');
+    return cy.get(".summary_total_label");
   }
 
   getContinueButton() {

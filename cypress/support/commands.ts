@@ -1,4 +1,4 @@
-import { Login } from "@pageObjects/login-page"
+import { Login } from "@pageObjects/login-page";
 
 const loginPage = new Login();
 
@@ -11,7 +11,7 @@ declare global {
 }
 
 Cypress.Commands.add("userLogin", (username: string, password: string) => {
-  cy.visit('/')
+  cy.visit("/");
   loginPage.enterCredentials(username, password);
   loginPage.getLoginButton().click();
-})
+});

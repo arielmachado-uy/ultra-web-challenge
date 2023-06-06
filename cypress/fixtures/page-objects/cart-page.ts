@@ -8,10 +8,10 @@ export class Cart {
   }
 
   getCartQuantity() {
-    return cy.get('.cart_quantity');
+    return cy.get(".cart_quantity");
   }
 
   getCheckoutButton() {
-    return  cy.get('#checkout');
+    return cy.get("#checkout");
   }
 }

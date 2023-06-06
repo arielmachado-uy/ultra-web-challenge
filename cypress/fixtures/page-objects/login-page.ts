@@ -1,14 +1,14 @@
 export class Login {
   getUsernameTextbox() {
-    return cy.get('#user-name');
+    return cy.get("#user-name");
   }
 
   getPasswordTextbox() {
-    return cy.get('#password');
+    return cy.get("#password");
   }
 
   getLoginButton() {
-    return cy.get('#login-button');
+    return cy.get("#login-button");
   }
 
   enterCredentials(username: string, password: string) {

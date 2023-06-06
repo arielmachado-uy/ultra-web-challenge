@@ -8,6 +8,6 @@ export class Inventory {
   }
 
   getCartButton() {
-    return cy.get('a.shopping_cart_link');
+    return cy.get("a.shopping_cart_link");
   }
 }

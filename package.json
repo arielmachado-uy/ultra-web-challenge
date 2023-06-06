@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "cypress": "12.13.0",
+    "prettier": "2.8.8",
     "typescript": "^5.0.4"
   }
 }
