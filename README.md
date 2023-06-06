@@ -84,7 +84,16 @@ Steps:
 - The automation project is integrated with github actions for CI/CD
 - The automated test case will run after every push to the `main` branch
 - The automated test case can be run manually using the github workflow
+
+<br>
+
+![Image](/documentation/github_job.png)
+
 - **Extra:** the automation project is also integrated with `Cypress Cloud` for reporting and debugging purposes
+
+<br>
+
+![Image](/documentation/cypress_cloud.png)
 
 <br>
 
