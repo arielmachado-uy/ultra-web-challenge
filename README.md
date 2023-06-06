@@ -128,3 +128,5 @@ Script `yarn cy:open`
 - The user can re-run the test case from the runner without using the script again
 - Check the following video to see the execution of the test inside the runner
 
+https://github.com/arielmachado-uy/ultra-web-challenge/assets/18541519/cd59fe87-783a-47cb-b569-fbfe18884e6c
+
